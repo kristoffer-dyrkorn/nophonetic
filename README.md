@@ -32,16 +32,16 @@ Installasjon
 * Legg inn phonetic.dat i katalogen conf/ under rot-katalogen for Solr-kjernen
 * Legg inn en egen fieldType i schema.xml slik at transformasjoner kjøres både under søk og indeksering, f.eks slik:
 
-	<fieldType name="phonetic_type_no" class="solr.TextField" positionIncrementGap="100">
-	  <analyzer>
-	    <tokenizer class="solr.StandardTokenizerFactory"/>
-	    <filter class="no.bekk.bekkopen.tokenfilter.TransformationFilterFactory" />
-	  </analyzer>
-	</fieldType>
+		<fieldType name="phonetic_type_no" class="solr.TextField" positionIncrementGap="100">
+		  <analyzer>
+		    <tokenizer class="solr.StandardTokenizerFactory"/>
+		    <filter class="no.bekk.bekkopen.tokenfilter.TransformationFilterFactory" />
+		  </analyzer>
+		</fieldType>
 
 * Legg inn et felt som bruker denne fieldType'n, f.eks slik:
 
-	<field name="phonetic_text" type="phonetic_no" indexed="true" stored="false"/>
+		<field name="phonetic_text" type="phonetic_no" indexed="true" stored="false"/>
 
 
 Gjenstår

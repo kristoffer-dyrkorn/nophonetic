@@ -1,0 +1,262 @@
+##
+# @(#) $RCSfile: Phonet.dat,v $ $Revision: 1.21 $ $Date: 2007/04/16 17:19:48 $
+#
+# Copyright 2005 Olaf Havnes. All Rights Reserved.
+# http://www.havnes.com
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+##
+
+##
+# This is my attempt at building a Norwegian phonetic (phuzzy) encoder in the Aspell
+# format. It is a work in progress, and I plan to tune it against my own writings in
+# the next years.
+#
+# To learn the format I studied the Aspell manual and built a phonetic encoder in
+# java. I used my own java based encoder to test the Norwegian ruleset, but I hope
+# and trust that the phonetic encoder will work with the original Aspell program.
+#
+# Rune Kleveland's Norwegian ispell dictionaries have been used extensively while
+# building this ruleset.
+#
+# The comments are in English, while terms and sounds are in Norwegian - the mix may
+# be a little confusing.
+#
+#
+#
+# Loan words / exotic letters:
+# ----------------------------
+#
+# I've not taken much care with loan words. It is hard, for example, to formulate rules
+# for the CC in Franccois / Fibonacci / access / cappuccino. Fortunately we are not talking
+# about many terms, here is a 'exotic letter count' from a typical Norwegian dictionary:
+#
+# C has 6097 entries.
+# Q has 132 entries.
+# W has 1105 entries.
+# X has 434 entries.
+# Z has 958 entries.
+#
+#
+# @author      Olaf Havnes
+# @version     $Revision: 1.21 $ $Date: 2007/04/16 17:19:48 $
+##
+
+
+
+
+# Norwegian Phonetic RuleSet v 0.3.1 (A version line is required if used in Aspell.)
+version             NPRS-0.3.1
+
+# Brutal reduction of the input to the ascii letters
+remove_accents      1
+
+# Implement lookahead for higher priorities when selecting rules
+followup            1
+
+# Collapse double chars to singles after all rules have run
+collapse_result     1
+
+
+
+
+# Special chars - vowels :
+# ------------------------
+
+
+~                   ~       # unity mapping of the diphtong, repeated vowel
+
+
+*(AEIJOUY)8         ~       # diphtong, repeated vowel: øy, hai, lee
+*^                  *       # 'intro vowel': uhell, iherdig, amen
+*H(AEIJOUY)-        H       # keep the H between two vowels: behag
+*R$                 R       # keep the R in word endings: mor
+*(FHLMNRSVWZ)-      _       # remove vowels before 'hummable' consonants
+*                   *       # unity mapping of the plain vowel
+
+
+
+
+# Special chars - consonants :
+# ----------------------------
+
+
+§                   §       # unity mapping of the SHJ-sound in sjark, skjorte, skitne, jiddisch
+
+
+{                   {       # unity mapping of the KJ-sound in kiosk, kjeller, tjukk
+
+
+%                   %       # unity mapping of the NG(N)-sound in agne, regning
+
+
+
+
+# The ascii letters :
+# -------------------
+
+
+AA<4                *       #
+A<4                 *       #
+
+
+BB-                 _       #
+B                   B       #
+
+
+CQ-                 _       # Let the Q-rules handle this one (see f.i. becquerel).
+CK8<                G       # rock, Stockholm
+CHS<                GS      # Ulrichsen, dachs
+CH7                 §       # charter, chili, choke
+CCI-                §       # cappuccino
+CCO-                G       # broccoli, piccolo
+CC<                 GS      # access
+CE$                 S       # race
+C(EIY)-             S       # celeber, cirka, cyan
+C<                  G       # sculler
+
+
+DD-                 _       #
+DS-                 _       # gards, Amundsen
+DT-                 _       # midten
+D$                  _       # blod, fred
+D                   D       #
+
+
+EAUX<               *       # bordeaux
+EAU<                *       # beaujolais
+EE(DKNP)-           *       # speed, weekend, Greenpeace, keeper
+ET$                 *       # livet, havet
+EG$                 ~       # deg, meg, veg
+EG(LN)-             ~       # segl, regning
+E<4                 *       #
+
+
+FF-                 _       #
+F                   F       #
+
+
+GG-                 _       #
+GJ-                 _       # begjære, gjødsel
+GNE-                %       # agne
+GN                  N       # gnure, vogn
+G                   G       #
+
+
+HH-                 _       # vorstehhund
+H(AEIOUY)-^         H       # hatt, hete, hilse
+H                   _       # hjelper, triathlon, Ruhr, hvem
+
+
+IG$                 *       # deilig, pliktig
+I<4                 *       #
+
+
+J<4                 *       # ja, djevel
+
+
+KK-                 _       #
+K(JY)               {       # kjeller, kyte (the 'SKI' words are captured by S-rules)
+K<                  G       # Brutal reduction is the name of the game ...
+
+
+LL-                 _       #
+LD                  L       # vold, behold
+L                   L       #
+
+
+MM-                 _       #
+M                   M       #
+
+
+NN-                 _       #
+NGN6                %       # svingning
+NG6                 %       # lang, tung, ting
+NK6                 %       # banke
+ND<                 N       # land, handler
+NEN-                _       # tonene
+NIN-                _       # likning
+N                   N       #
+
+
+OO<                 *       # scooter
+O<4                 *       #
+
+
+PPH<7               B       # opphav
+PP-                 _       #
+PH<7^               F       # philosophicum
+PN<7^               N       # pneumatikk
+PS<^                S       # psykolog
+P                   B       # Brutal reduction
+
+
+QUE-                G       # enquete, becquerel
+QU7                 GV      # quiz, Quart-festivalen
+Q<                  G       # Qatar
+
+
+RR-                 _       #
+RS                  §       # vers, stakkars
+RDS                 §       # gards
+RH6                 R       # rhesus, forhatt (higher priority to avoid removing both R and H)
+R^                  R       #
+R(AEIOUY)-          R       #
+R                   _       # verden, Nederland, stjerne, spørsmål, vert
+
+
+SS-                 _       #
+SKJ7                §       # skjorte, beskjed
+SJ7                 §       # sjokolade
+SH7$                §       # rush
+SH7^                §       # show
+SCH7                §       # jiddisch
+SKOYT---            §       # losskøyte
+SK(AOU)-            SG      # skade, skole, skutt, skøy, skår
+SKE(PT)--^          SG      # skepsis, sketsj
+SK7^                §       # Skeid, skilpadde, skyve
+SC(EI)-             S       # scene, fascinasjon
+SC                  SG      # scoring, disc
+S                   S       #
+
+
+TT-                 _       #
+TCH9                §       # clutch
+TSJ7                §       # depotsjef, sketsj
+TION9               §N      # action
+TJE<                TIE     # gytje, betjent
+TJ                  {       # tjukk, tjeld, tjern, tja
+T                   T       #
+
+
+U<4                 *       #
+
+
+VV-                 _       #
+V                   V       #
+
+
+W<                  V       #
+
+
+X<^                 S       # xylofon
+X<                  GS      # saxofon
+
+
+Y<4                 *       #
+
+
+ZZ-                 _       # jazz
+Z<                  S       # Zanzibar
